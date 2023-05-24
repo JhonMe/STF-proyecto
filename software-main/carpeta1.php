@@ -32,6 +32,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 }
 
+// Consulta para obtener los datos de la tabla "tipo"
+$consultaTipo = "SELECT descripcion FROM tipo";
+$resultadoTipo = $conn->query($consultaTipo);
+
+// Consulta para obtener los datos de la tabla "proceso"
+$consultaProceso = "SELECT descripcion FROM proceso";
+$resultadoProceso = $conn->query($consultaProceso);
+
+// Consulta para obtener los datos de la tabla "responsable"
+$consultaResponsable = "SELECT nombre FROM responsable";
+$resultadoResponsable = $conn->query($consultaResponsable);
+
 $conn->close();
 ?>
 
@@ -46,8 +58,70 @@ $conn->close();
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <script>
+    $(document).ready(function () {
+        // Cargar opciones para los select al cargar la página
+        cargarOpciones('tipo', 'cargar_tipos.php');
+        cargarOpciones('proceso', 'cargar_procesos.php');
+        cargarOpciones('responsable', 'cargar_responsables.php');
+
+        // Autocompletar campos al seleccionar una opción
+        $('#tipo').change(function () {
+            var tipoId = $(this).val();
+            if (tipoId !== '') {
+                autocompletarCampos(tipoId, 'tipo', 'cargar_datos_tipo.php');
+            }
+        });
+
+        $('#proceso').change(function () {
+            var procesoId = $(this).val();
+            if (procesoId !== '') {
+                autocompletarCampos(procesoId, 'proceso', 'cargar_datos_proceso.php');
+            }
+        });
+
+        $('#responsable').change(function () {
+            var responsableId = $(this).val();
+            if (responsableId !== '') {
+                autocompletarCampos(responsableId, 'responsable', 'cargar_datos_responsable.php');
+            }
+        });
+    });
+
+    function cargarOpciones(elementId, url) {
+        $.ajax({
+            url: url,
+            type: 'GET',
+            success: function (response) {
+                $('#' + elementId).html(response);
+            },
+            error: function (xhr, status, error) {
+                console.error(error);
+            }
+        });
+    }
+
+    function autocompletarCampos(itemId, itemType, url) {
+        $.ajax({
+            url: url,
+            type: 'GET',
+            data: {
+                id: itemId,
+                type: itemType
+            },
+            dataType: 'json',
+            success: function (response) {
+                $('#descripcion').val(response.descripcion);
+                $('#accion-inmediata').val(response.accion_inmediata);
+                $('#estado').val(response.estado);
+            },
+            error: function (xhr, status, error) {
+                console.error(error);
+            }
+        });
+    }
+
     function goback() {
-        window.location.href = "http://localhost.bienvenida.php";
+        window.history.back();
     }
 </script>
 <style>
@@ -59,195 +133,91 @@ $conn->close();
 <body>
 
     <div style="background-color: #429fe6;">
-        <h2 style="text-align: center; font-family: georgia; ">REGISTRO DEL PODUCTO NO CONFORME Y NO CONFORMIDADES</h2>
-
-
+        <h2 style="text-align: center; color: white; padding: 20px;">FORMULARIO DE REGISTRO</h2>
     </div>
-    <!-- Mensaje de éxito -->
-    <?php if (isset($mensajeExito)): ?>
-            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: yellow; color: black; padding: 30px; z-index: 9999;" class="alert alert-success mt-3" id="mensaje-exito" role="alert">
-                <?php echo $mensajeExito; ?>
+
+    <div class="container mt-5">
+        <form method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+            <div class="form-group">
+                <label for="tipo">Tipo:</label>
+                <select class="form-control" id="tipo" name="tipo">
+                    <?php
+                    if ($resultadoTipo->num_rows > 0) {
+                        while ($row = $resultadoTipo->fetch_assoc()) {
+                            echo "<option value='" . $row['descripcion'] . "'>" . $row['descripcion'] . "</option>";
+                        }
+                    }
+                    ?>
+                </select>
             </div>
-        <?php endif; ?>
-
-    <div class="formulario">
-
-
-        <div style="position: absolute; top: 30%; left: 50%; transform: translate(-50%, -50%); background-color:#429fe6; height: 40%; width: 80%; margin: 0, 30, 0, 0; "
-            class="principal">
-
-
-            <form class="cuerpo" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-                <label style="font-family: georgia; font-size: 20px;">SELECIONE EL ESTADO</label>
-                <div class="form-group" style="display: flex; align-items: center; justify-content: center; ">
-
-                    <div style="width: 400px;" class="form-check">
-                        <input class="form-check-input" type="radio" name="estado" id="no-conforme" value="no-conforme">
-                        <label class="form-check-label" for="no-conforme">No conforme</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="estado" id="conforme" value="conforme">
-                        <label class="form-check-label" for="conforme">Conforme</label>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label style="font-family: georgia; font-size: 20px;" for="tipo">SELECIONE EL TIPO</label>
-                    <br>
+            <div class="form-group">
+                <label for="proceso">Proceso:</label>
+                <select class="form-control" id="proceso" name="proceso">
                     <?php
-                    $servername = "localhost";
-                    $username = "root";
-                    $password = "";
-                    $dbname = "usuarios";
-
-                    // Crear conexión
-                    $conn = new mysqli($servername, $username, $password, $dbname);
-
-                    // Verificar la conexión
-                    if ($conn->connect_error) {
-                        die("Error en la conexión: " . $conn->connect_error);
-                    }
-                    // Consulta para obtener los datos de la tabla "proceso"
-                    $consultaProceso = "SELECT descripcion FROM tipo";
-                    $resultadoProceso = $conn->query($consultaProceso);
-
-                    // Verificar si se obtuvieron resultados
                     if ($resultadoProceso->num_rows > 0) {
-                        // Crear el combo box con los datos obtenidos
-                        echo "<select name='tipo'>";
                         while ($row = $resultadoProceso->fetch_assoc()) {
-                            echo "<option value='" . $row["descripcion"] . "'>" . $row["descripcion"] . "</option>";
+                            echo "<option value='" . $row['descripcion'] . "'>" . $row['descripcion'] . "</option>";
                         }
-                        echo "</select>";
-                    } else {
-                        echo "No se encontraron registros en la tabla 'tipo'.";
                     }
                     ?>
-                </div>
-                <div class="form-group">
-                    <label style="font-family: georgia; font-size: 20px;" for="proceso" for="proceso">SELECIONE EL
-                        PROCESO</label>
-                    <br>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="descripcion">Descripción:</label>
+                <textarea class="form-control" id="descripcion" name="descripcion" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="accion-inmediata">Acción Inmediata:</label>
+                <textarea class="form-control" id="accion-inmediata" name="accion-inmediata" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="responsable">Responsable:</label>
+                <select class="form-control" id="responsable" name="responsable">
                     <?php
-                    $servername = "localhost";
-                    $username = "root";
-                    $password = "";
-                    $dbname = "usuarios";
-
-                    // Crear conexión
-                    $conn = new mysqli($servername, $username, $password, $dbname);
-
-                    // Verificar la conexión
-                    if ($conn->connect_error) {
-                        die("Error en la conexión: " . $conn->connect_error);
-                    }
-                    // Consulta para obtener los datos de la tabla "proceso"
-                    $consultaProceso = "SELECT descripcion FROM proceso";
-                    $resultadoProceso = $conn->query($consultaProceso);
-
-                    // Verificar si se obtuvieron resultados
-                    if ($resultadoProceso->num_rows > 0) {
-                        // Crear el combo box con los datos obtenidos
-                        echo "<select name='proceso'>";
-                        while ($row = $resultadoProceso->fetch_assoc()) {
-                            echo "<option value='" . $row["descripcion"] . "'>" . $row["descripcion"] . "</option>";
+                    if ($resultadoResponsable->num_rows > 0) {
+                        while ($row = $resultadoResponsable->fetch_assoc()) {
+                            echo "<option value='" . $row['nombre'] . "'>" . $row['nombre'] . "</option>";
                         }
-                        echo "</select>";
-                    } else {
-                        echo "No se encontraron registros en la tabla 'proceso'.";
                     }
                     ?>
-                </div>
-                <br>
-                <div style="position: absolute; top: 170%; left: 50%; transform: translate(-50%, -50%); background-color:#429fe6; height: 100%; width: 100%; margin: 0, 30, 0, 0; "
-                    class="principal1">
-                    <div class="form-group">
-                        <label style="font-family: georgia; font-size: 20px;" for="descripcion">DESCRIPCION DEL PRODUCTO
-                            NO CONFORME/NO CONFORMADO</label>
-                        <textarea class="form-control" id="descripcion" name="descripcion"></textarea>
-                    </div>
-                    <br>
-                    <div class="form-group">
-                        <label style="font-family: georgia; font-size: 20px;" for="accion-inmediata">ACCION
-                            INMEDIATA</label>
-                        <input class="form-control" type="text" id="accion-inmediata" name="accion-inmediata">
-                    </div>
-                    <div class="form-group">
-                        <label style="font-family: georgia; font-size: 20px;" for="responsable"
-                            for="responsable">SELECIONE EL RESPONSABLE</label>
-                        <br>
-                        <?php
-                        $servername = "localhost";
-                        $username = "root";
-                        $password = "";
-                        $dbname = "usuarios";
-
-                        // Crear conexión
-                        $conn = new mysqli($servername, $username, $password, $dbname);
-
-                        // Verificar la conexión
-                        if ($conn->connect_error) {
-                            die("Error en la conexión: " . $conn->connect_error);
-                        }
-                        // Consulta para obtener los datos de la tabla "proceso"
-                        $consultaProceso = "SELECT nombre FROM responsable";
-                        $resultadoProceso = $conn->query($consultaProceso);
-
-                        // Verificar si se obtuvieron resultados
-                        if ($resultadoProceso->num_rows > 0) {
-                            // Crear el combo box con los datos obtenidos
-                            echo "<select name='responsable'>";
-                            while ($row = $resultadoProceso->fetch_assoc()) {
-                                echo "<option value='" . $row["nombres"] . "'>" . $row["nombres"] . "</option>";
-                            }
-                            echo "</select>";
-                        } else {
-                            echo "No se encontraron registros en la tabla 'responsable'.";
-                        }
-                        ?>
-                    </div>
-                    <div class="form-group">
-                        <label style="font-family: georgia; font-size: 20px;" for="fecha-emision">FECHA DE EMISION
-                        </label>
-                        <input class="form-control" type="date" id="fecha-emision" name="fecha-emision">
-                    </div>
-                    <div class="form-group">
-                        <label style="font-family: georgia; font-size: 20px;" for="alerta">ALERTA</label>
-                        <input placeholder="DIAS ANTES" class="form-control" type="text" id="alerta" name="alerta">
-                    </div>
-                    <div class="form-group">
-                        <label style="font-family: georgia; font-size: 20px;" for="fecha-limite">FECHA LIMITE</label>
-                        <input class="form-control" type="date" id="fecha-limite" name="fecha-limite">
-                    </div>
-                    <div style="text-align: right;">
-                        <button style="float: right;" class="btn btn-primary" class="btn btn-primary">REGISTRAR</button>
-                    </div>
-
-                </div>
-            </form>
-
-        </div>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="fecha-emision">Fecha de Emisión:</label>
+                <input type="date" class="form-control" id="fecha-emision" name="fecha-emision">
+            </div>
+            <div class="form-group">
+                <label for="alerta">Alerta:</label>
+                <input type="text" class="form-control" id="alerta" name="alerta">
+            </div>
+            <div class="form-group">
+                <label for="fecha-limite">Fecha Límite:</label>
+                <input type="date" class="form-control" id="fecha-limite" name="fecha-limite">
+            </div>
+            <div class="form-group">
+                <label for="estado">Estado:</label>
+                <input type="text" class="form-control" id="estado" name="estado">
+            </div>
+            <button type="submit" class="btn btn-primary">Registrar</button>
+            <button type="button" class="btn btn-secondary" onclick="goback()">Volver</button>
+        </form>
+        <?php
+        if (isset($mensajeExito)) {
+            echo "<div class='alert alert-success mt-3'>" . $mensajeExito . "</div>";
+        }
+        if (isset($mensajeError)) {
+            echo "<div class='alert alert-danger mt-3'>" . $mensajeError . "</div>";
+        }
+        ?>
     </div>
 
-
+    <script>
+        function goback() {
+            window.history.back();
+        }
+    </script>
 </body>
-<div style="position: absolute; top: 980px; left: 140px;">
-    <button style="float: left; background-color: red" class="btn btn-primary"
-        onclick="cerrarFormulario();">SALIR</button>
-</div>
-
-
-<script>
-    function cerrarFormulario() {
-        window.close(); // Cierra la ventana actual del navegador
-        window.location.href = "bienvenida.php"; // Redirige al usuario al menú principal
-    }
-    // Código JavaScript para ocultar el mensaje de éxito después de unos segundos
-    $(document).ready(function () {
-        // Ocultar el mensaje de éxito después de 3 segundos (3000 ms)
-        setTimeout(function () {
-            $("#mensaje-exito").fadeOut("slow");
-        }, 5000);
-    });
-</script>
 
 </html>
+</code></pre>
+
