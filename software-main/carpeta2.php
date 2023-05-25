@@ -40,26 +40,72 @@ $conn->close();
     <!-- Agregar los enlaces a las librerías de jQuery y Bootstrap -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #429fe6;
+        }
+
+        .form-group,
+        .form1 {
+            display: inline-block;
+            vertical-align: top;
+        }
+
+
+        .form-container {
+            border: 8px solid;
+            transition: border-color 0.5s ease;
+        }
+
+        .form-container.color-1 {
+            border-color: red;
+        }
+
+        .form-container.color-2 {
+            border-color: blue;
+        }
+
+        .form-container.color-3 {
+            border-color: green;
+        }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var formContainer = document.querySelector(".form-container");
+            var colors = ["color-1", "color-2", "color-3"];
+            var currentIndex = 0;
+
+            setInterval(function () {
+                formContainer.classList.remove(colors[currentIndex]);
+                currentIndex = (currentIndex + 1) % colors.length;
+                formContainer.classList.add(colors[currentIndex]);
+            }, 3000);
+        });
+    </script>
 </head>
 
 <body>
-    <div style="background-color: #429fe6;">
-        <h2 style="text-align: center; font-family: georgia; ">REGISTRO DEL PODUCTO NO CONFORME Y NO CONFORMIDADES</h2>
+
+    <div style="background-color: blue;">
+        <h2 style="text-align: center; font-family: georgia; color: white;">REGISTRO DEL PODUCTO NO CONFORME Y NO CONFORMIDADES</h2>
+
 
     </div>
-        <!-- Mensaje de éxito -->
-        <?php if (isset($mensajeExito)): ?>
-            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: yellow; color: black; padding: 30px; z-index: 9999;" class="alert alert-success mt-3" id="mensaje-exito" role="alert">
-                <?php echo $mensajeExito; ?>
-            </div>
-        <?php endif; ?>
+    <!-- Mensaje de éxito -->
+    <?php if (isset($mensajeExito)): ?>
+        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: yellow; color: black; padding: 30px; z-index: 9999;"
+            class="alert alert-success mt-3" id="mensaje-exito" role="alert">
+            <?php echo $mensajeExito; ?>
+        </div>
+    <?php endif; ?>
 
     <div style="position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%); background-color:#429fe6; height: 50%; width: 80%; margin: 0, 30, 0, 0; "
-        class="principal">
+        class="form-container">
+
 
         <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
             <div class="form-group">
-                <label style="font-family: georgia; font-size: 20px;" for="proceso">PROCESO</label>
+                <label style="  font-family: georgia; font-size: 20px; color:orange;" for="proceso">PROCESO</label>
                 <br>
                 <?php
                 $servername = "localhost";
@@ -91,8 +137,9 @@ $conn->close();
                 }
                 ?>
             </div>
-            <div class="form-group">
-                <label style="font-family: georgia; font-size: 20px;" for="certificacion">CERTIFICACION</label>
+            <div class="form1">
+                <label style="font-family: georgia; font-size: 20px; color:yellow;"
+                    for="certificacion">CERTIFICACION</label>
                 <br>
                 <?php
                 $servername = "localhost";
@@ -125,7 +172,7 @@ $conn->close();
                 ?>
             </div>
             <div class="form-group">
-                <label style="font-family: georgia; font-size: 20px;" for="grupo">GRUPO</label>
+                <label style="font-family: georgia; font-size: 20px;color:green;" for="grupo">GRUPO</label>
                 <br>
                 <?php
                 $servername = "localhost";
@@ -158,7 +205,8 @@ $conn->close();
                 ?>
             </div>
             <div class="form-group">
-                <label style="font-family: georgia; font-size: 20px;" for="requisito">REQUISITO</label>
+                <label style="font-family: georgia; font-size: 20px; width: 450px; color:blue;"
+                    for="requisito">REQUISITO</label>
                 <br>
                 <?php
                 $servername = "localhost";
@@ -192,32 +240,35 @@ $conn->close();
             </div>
             <br>
             <div class="form-group">
-                <label style="font-family: georgia; font-size: 20px;" for="descripcion">DESCRIPCIÓN</label>
+                <label style="font-family: georgia; font-size: 20px; color:golden;"
+                    for="descripcion">DESCRIPCIÓN</label>
                 <br>
-                <textarea class="form-control" name="descripcion" rows="3" required></textarea>
+                <textarea class="form-control" style="width: 450px;" name="descripcion" rows="3" required></textarea>
             </div>
             <div class="form-group">
-                <label style="font-family: georgia; font-size: 20px;" for="origen">ORIGEN</label>
+                <label style="font-family: georgia; font-size: 20px; color:orange;" for="origen">ORIGEN</label>
                 <br>
-                <input type="text" class="form-control" name="origen" required>
+                <input type="text" class="form-control" style="width: 300px;" name="origen" required>
             </div>
             <div class="form-group">
-                <label style="font-family: georgia; font-size: 20px;" for="fecha-hallazgo">FECHA DEL
+                <label style="font-family: georgia; font-size: 20px; color:orange;" for="fecha-hallazgo">FECHA DEL
                     HALLAZGO</label>
                 <br>
                 <input type="date" class="form-control" name="fecha-hallazgo" required>
             </div>
-            <button style="position: absolute; top:660px; left: 980px; " type="submit" class="btn btn-primary">REGISTRAR</button>
+
+            <button style="position: absolute; top:400px; left: 140px;  float: left; background-color: red"
+                class="btn btn-primary" onclick="cerrarFormulario();">SALIR</button>
+
+            <button style="position: absolute; top:400px; left: 980px; " type="submit"
+                class="btn btn-primary">REGISTRAR</button>
         </form>
 
-    
+
     </div>
 
 </body>
-<div style="position: absolute; top:760px; left: 140px;">
-    <button style="float: left; background-color: red" class="btn btn-primary"
-        onclick="cerrarFormulario();">SALIR</button>
-</div>
+
 
 
 <script>

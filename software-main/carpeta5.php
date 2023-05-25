@@ -129,7 +129,7 @@ $conn->close();
         </table>
     </div>
     <div class="custom-button-container">
-        <button class="custom-button" onclick="goToInicio()">Ir al Inicio</button>
+        <button class="custom-button" onclick="goToInicio()">AC/AP</button>
     </div>
     <div class="custom-button-salir">
         <button class="custom-button" onclick="salir()">Salir</button>
@@ -152,7 +152,7 @@ $conn->close();
         }
 
         function goToInicio() {
-            window.location.href = "carpeta1.php"; // Reemplaza "index.html" con la URL de tu página de inicio
+            window.location.href = "carpeta5-1.php"; // Reemplaza "index.html" con la URL de tu página de inicio
         }
         function salir() {
             window.location.href = "bienvenida.php"; // Reemplaza "salir.php" con la URL de tu página de salida

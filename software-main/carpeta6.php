@@ -13,6 +13,41 @@
             background-color: blue;
             color: white;
         }
+
+        body {
+            background: linear-gradient(to bottom, skyblue, blue);
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            height: 100%;
+            animation: gradientAnimation 10s ease infinite;
+        }
+
+        @keyframes gradientAnimation {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .container {
+            margin-top: 30px;
+            color: white;
+        }
+
+        @media (max-width: 767px) {
+            .container {
+                margin-top: 10px;
+            }
+        }
+
     </style>
 </head>
 
@@ -26,9 +61,10 @@
 
         <!-- Botón SAPC's y SACP's -->
         <button class="btn btn-primary" onclick="abrirFormulario('carpeta5-1.php')">AC/AP</button>
+
         <!-- Botón Eliminar -->
         <button class="btn btn-danger" onclick="eliminarRegistros()">Eliminar</button>
-        
+
 
         <table class="table">
             <thead>
@@ -45,67 +81,67 @@
                 </tr>
             </thead>
             <tbody>
-            <?php
-            // Configuración de la base de datos
-            $servername = "localhost";
-            $username = "root";
-            $password = "";
-            $dbname = "usuarios";
+                <?php
+                // Configuración de la base de datos
+                $servername = "localhost";
+                $username = "root";
+                $password = "";
+                $dbname = "usuarios";
 
-            // Crear conexión
-            $conn = new mysqli($servername, $username, $password, $dbname);
+                // Crear conexión
+                $conn = new mysqli($servername, $username, $password, $dbname);
 
-            // Verificar la conexión
-            if ($conn->connect_error) {
-                die("Error en la conexión: " . $conn->connect_error);
-            }
-
-            // Construir la consulta SQL para obtener todos los registros
-            $consulta = "SELECT * FROM inicio1";
-            $resultado = $conn->query($consulta);
-
-            // Verificar si se obtuvieron resultados
-            if ($resultado->num_rows > 0) {
-                // Mostrar los datos en la tabla
-                while ($row = $resultado->fetch_assoc()) {
-                    echo "<tr";
-
-                    // Determinar el color según el estado y la fecha límite
-                    $fechaLimite = strtotime($row['fecha_limite']);
-                    $hoy = strtotime(date('Y-m-d'));
-                    if ($fechaLimite < $hoy) {
-                        echo " style='background-color: red;'";
-                    } elseif ($fechaLimite - $hoy <= 259200) { // Menos de 3 días (259200 segundos)
-                        echo " style='background-color: yellow;'";
-                    } else {
-                        echo " style='background-color: green;'";
-                    }
-
-                    // Agregar el atributo data-id con el valor del ID del registro
-                    echo " data-id='" . $row['id'] . "'";
-
-                    echo ">";
-
-                    // Imprimir las columnas de la fila
-                    echo "<td>" . $row['estado'] . "</td>";
-                    echo "<td>" . $row['tipo'] . "</td>";
-                    echo "<td>" . $row['proceso'] . "</td>";
-                    echo "<td>" . $row['descripcion'] . "</td>";
-                    echo "<td>" . $row['accion_inmediata'] . "</td>";
-                    echo "<td>" . $row['responsable'] . "</td>";
-                    echo "<td>" . $row['fecha_emision'] . "</td>";
-                    echo "<td>" . $row['alerta'] . "</td>";
-                    echo "<td>";
-                    echo "<input type='text' class='datepicker' name='fecha_limite' value='" . $row['fecha_limite'] . "' onchange='guardarFechaLimite(this.value)'>";
-                    echo "</td>";
-                    echo "</tr>";
+                // Verificar la conexión
+                if ($conn->connect_error) {
+                    die("Error en la conexión: " . $conn->connect_error);
                 }
-            } else {
-                echo "<tr><td colspan='9'>No se encontraron registros</td></tr>";
-            }
-            // Cerrar la conexión a la base de datos
-            $conn->close();
-        ?>
+
+                // Construir la consulta SQL para obtener todos los registros
+                $consulta = "SELECT * FROM inicio1";
+                $resultado = $conn->query($consulta);
+
+                // Verificar si se obtuvieron resultados
+                if ($resultado->num_rows > 0) {
+                    // Mostrar los datos en la tabla
+                    while ($row = $resultado->fetch_assoc()) {
+                        echo "<tr";
+
+                        // Determinar el color según el estado y la fecha límite
+                        $fechaLimite = strtotime($row['fecha_limite']);
+                        $hoy = strtotime(date('Y-m-d'));
+                        if ($fechaLimite < $hoy) {
+                            echo " style='background-color: red;'";
+                        } elseif ($fechaLimite - $hoy <= 259200) { // Menos de 3 días (259200 segundos)
+                            echo " style='background-color: yellow;'";
+                        } else {
+                            echo " style='background-color: green;'";
+                        }
+
+                        // Agregar el atributo data-id con el valor del ID del registro
+                        echo " data-id='" . $row['id'] . "'";
+
+                        echo ">";
+
+                        // Imprimir las columnas de la fila
+                        echo "<td>" . $row['estado'] . "</td>";
+                        echo "<td>" . $row['tipo'] . "</td>";
+                        echo "<td>" . $row['proceso'] . "</td>";
+                        echo "<td>" . $row['descripcion'] . "</td>";
+                        echo "<td>" . $row['accion_inmediata'] . "</td>";
+                        echo "<td>" . $row['responsable'] . "</td>";
+                        echo "<td>" . $row['fecha_emision'] . "</td>";
+                        echo "<td>" . $row['alerta'] . "</td>";
+                        echo "<td>";
+                        echo "<input type='text' class='datepicker' name='fecha_limite' value='" . $row['fecha_limite'] . "' onchange='guardarFechaLimite(this.value)'>";
+                        echo "</td>";
+                        echo "</tr>";
+                    }
+                } else {
+                    echo "<tr><td colspan='9'>No se encontraron registros</td></tr>";
+                }
+                // Cerrar la conexión a la base de datos
+                $conn->close();
+                ?>
 
             </tbody>
         </table>
@@ -243,6 +279,20 @@
             autoclose: true,
             todayHighlight: true
         });
+
+        // Función para animar el fondo de la página
+        function animateBackground() {
+            var colors = ['#FF5733', '#FFC300', '#DAF7A6', '#FF00BF', '#FF0000'];
+            var currentIndex = 0;
+            var body = document.querySelector('body');
+
+            setInterval(function () {
+                body.style.backgroundColor = colors[currentIndex];
+                currentIndex = (currentIndex + 1) % colors.length;
+            }, 3000);
+        }
+
+        animateBackground();
     </script>
 </body>
 

@@ -15,7 +15,7 @@ if ($conn->connect_error) {
 // Obtener los valores del formulario
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 $proceso = isset($_POST['proceso']) ? $_POST['proceso'] : '';
-$direccion = isset($_POST['proceso']) ? $_POST['proceso'] : '';
+$direccion = isset($_POST['direccion']) ? $_POST['direccion'] : '';
 $parte = isset($_POST['parte']) ? $_POST['parte'] : '';
 $seleccion = isset($_POST['seleccion']) ? $_POST['seleccion'] : '';
 $externo = isset($_POST['externo']) ? $_POST['externo'] : '';
@@ -24,7 +24,7 @@ $nombres = isset($_POST['nombres']) ? $_POST['nombres'] : '';
 $telefono = isset($_POST['telefono']) ? $_POST['telefono'] : '';
 $correo = isset($_POST['correo']) ? $_POST['correo'] : '';
 $clasificacion = isset($_POST['clasificacion']) ? $_POST['clasificacion'] : '';
-$comentario_descripcion = isset($_POST['comentario_decripcion']) ? $_POST['comentario_decripcion'] : '';
+$comentario_descripcion = isset($_POST['comentario_descripcion']) ? $_POST['comentario_descripcion'] : '';
 
 // Insertar los datos en la tabla
 $sql = "INSERT INTO inicio3 (proceso, direccion, parte, seleccion, externo, cargo, nombres, telefono, correo, clasificacion, comentario_descripcion)
@@ -234,7 +234,7 @@ $conn->close();
                     // Verificar si se obtuvieron resultados
                     if ($resultadoProceso->num_rows > 0) {
                     // Crear el combo box con los datos obtenidos
-                    echo "<select name='seleccion1'>";
+                    echo "<select name='cargo'>";
                         while ($row = $resultadoProceso->fetch_assoc()) {
                         echo "<option value='" . $row["descripcion"] . "'>" . $row["descripcion"] . "</option>";
                         }
