@@ -9,7 +9,12 @@
 <body>
 
     <div class="container">
-        <h2>Acciones Correctivas y Preventivas</h2>
+        <div style="background-color: #429fe6;">
+            <h2 style="text-align: center; font-family: georgia; ">ACCIONES CORRECTIVAS Y PREVENTIVAS
+            </h2>
+
+
+        </div>
 
         <div class="form-group">
             <label for="detalle">Detalle Cierre de SAPC's y SACP's:</label>
@@ -84,11 +89,11 @@
                 Fecha de Cierre
             </label>
             <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">Fecha Cierre:</span>
-                    </div>
-                    <input type="date" class="form-control" id="fechaCierre">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Fecha Cierre:</span>
                 </div>
+                <input type="date" class="form-control" id="fechaCierre">
+            </div>
         </div>
 
         <div class="form-group">

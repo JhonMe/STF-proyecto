@@ -118,7 +118,6 @@ $conn->close();
 <body>
 
     <div style="background-color: #429fe6;">
-    
         <h2 style="text-align: center; font-family: georgia; ">REGISTRO DEL PODUCTO NO CONFORME Y NO CONFORMIDADES</h2>
 
 

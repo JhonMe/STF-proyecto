@@ -190,7 +190,7 @@ $conn->close();
                             die("Error en la conexión: " . $conn->connect_error);
                         }
                         // Consulta para obtener los datos de la tabla "proceso"
-                        $consultaProceso = "SELECT nombre FROM responsable";
+                        $consultaProceso = "SELECT nombres FROM responsable";
                         $resultadoProceso = $conn->query($consultaProceso);
 
                         // Verificar si se obtuvieron resultados
@@ -198,7 +198,7 @@ $conn->close();
                             // Crear el combo box con los datos obtenidos
                             echo "<select name='responsable'>";
                             while ($row = $resultadoProceso->fetch_assoc()) {
-                                echo "<option value='" . $row["nombre"] . "'>" . $row["nombre"] . "</option>";
+                                echo "<option value='" . $row["nombres"] . "'>" . $row["nombres"] . "</option>";
                             }
                             echo "</select>";
                         } else {

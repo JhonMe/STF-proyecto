@@ -45,46 +45,37 @@ $conn->close();
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <style>
-    body {
+    body{
         background-image: url("https://w.forfun.com/fetch/e5/e528d4597bd9fe6d7c993bdae0fd5ed9.jpeg");
     }
-    
-
     .custom-button {
-        background-color: red;
-        color: white;
-        font-family: georgia;
-        font-size: 18px;
-        padding: 10px 20px;
-        border: none;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-    }
+            background-color: #429fe6;
+            color: white;
+            font-family: georgia;
+            font-size: 18px;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
 
-    .custom-button:hover {
-        background-color: #1c7bbf;
-    }
+        .custom-button:hover {
+            background-color: #1c7bbf;
+        }
 
-    .custom-button-container {
-        position: absolute;
-        top: 50px;
-        left: 1600px;
-    }
-
-    .custom-button-salir {
-        position: absolute;
-        margin-top: 700px;
-        margin-left: 1600px;
-        
-    }
+        .custom-button-container {
+            position: absolute;
+            top: 50px;
+            left: 1150px;
+            
+        }
 </style>
-
 <body>
     <div style="background-color: #429fe6;">
         <h2 style="text-align: center; font-family: georgia;">REGISTRO DEL PRODUCTO NO CONFORME Y NO CONFORMIDADES</h2>
     </div>
 
-    <div style="position: absolute; top: 40%; left: 40%; transform: translate(-50%, -50%); background-color: transparent; height: 50%; width: 70%; margin: 0, 30, 0, 0;" class="principal">
+    <div style="position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%); background-color: transparent; height: 50%; width: 90%; margin: 0, 30, 0, 0;" class="principal">
         <div class="form-group">
             <label style="font-family: georgia; font-size: 20px; " for="certificacion">Buscar por Certificación:</label>
             <select class="form-control" id="certificacion" onchange="filterByCertificacion()">
@@ -120,19 +111,18 @@ $conn->close();
                         echo "<td style='font-family: Arial, sans-serif; font-weight: bold;'>" . $row["fecha_hallazgo"] . "</td>";
                         echo "</tr>";
                     }
+                
+            
                 } else {
                     echo "<tr><td colspan='7'>No se encontraron registros</td></tr>";
                 }
                 ?>
-
+            
             </tbody>
         </table>
     </div>
     <div class="custom-button-container">
-        <button class="custom-button" onclick="goToInicio()">AC/AP</button>
-    </div>
-    <div class="custom-button-salir">
-        <button class="custom-button" onclick="salir()">Salir</button>
+        <button style="background-color: blue;" class="custom-button" onclick="goToInicio()">AC/AP</button>
     </div>
 
     <script>
@@ -150,12 +140,8 @@ $conn->close();
                 }
             }
         }
-
         function goToInicio() {
             window.location.href = "carpeta5-1.php"; // Reemplaza "index.html" con la URL de tu página de inicio
-        }
-        function salir() {
-            window.location.href = "bienvenida.php"; // Reemplaza "salir.php" con la URL de tu página de salida
         }
     </script>
 

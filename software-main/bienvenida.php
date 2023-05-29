@@ -231,10 +231,10 @@
   </header>
   <footer>
     <div>
-      <img src="img/otorgar.png" height="40px" alt="">
+      <span class="icon icon-software-engineering"></span>
       <!-- Agrega más iconos aquí si lo deseas -->
     </div>
-    <p>© 2023 DESAROLLADO PARA FACILITAR LA DOCUMENTACION </p>
+    <p>© 2023 DESAROLLADO PARA FACILITAR LA DOCUMENTACION</p>
   </footer>
 
   <script>

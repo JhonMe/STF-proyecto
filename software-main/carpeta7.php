@@ -22,13 +22,12 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Proceso</th>
-                        <th>Dirección </th>
-                        <th>Parte del Proceso</th>
-                        <th>Selección</th>
-                        <th>Nombres</th>
-                        <th>Telefono</th>
-                        <th>Correo</th>
+                        <th>CATEGORIA</th>
+                        <th>ACCIONES</th>
+                        <th>RESPONSABLE</th>
+                        <th>RECURSOS</th>
+                        <th>CARGO</th>
+                        <th>FECHA LÍMITE</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -48,20 +47,19 @@
                     }
 
                     // Consulta para obtener los datos registrados
-                    $consultaDatos = "SELECT proceso, direccion, cargo, seleccion, nombres, telefono, correo FROM inicio3";
+                    $consultaDatos = "SELECT categoria, acciones, responsable, recursos, descripcion, fechaLimite FROM inicio6";
                     $result = $conn->query($consultaDatos);
 
                     if ($result->num_rows > 0) {
                         // Mostrar los datos en la tabla
                         while ($row = $result->fetch_assoc()) {
                             echo "<tr>";
-                            echo "<td>" . $row['proceso'] . "</td>";
-                            echo "<td>" . $row['direccion'] . "</td>";
-                            echo "<td>" . $row['cargo'] . "</td>";
-                            echo "<td>" . $row['seleccion'] . "</td>";
-                            echo "<td>" . $row['nombres'] . "</td>";
-                            echo "<td>" . $row['telefono'] . "</td>";
-                            echo "<td>" . $row['correo'] . "</td>";
+                            echo "<td>" . $row['categoria'] . "</td>";
+                            echo "<td>" . $row['acciones'] . "</td>";
+                            echo "<td>" . $row['responsable'] . "</td>";
+                            echo "<td>" . $row['recursos'] . "</td>";
+                            echo "<td>" . $row['descripcion'] . "</td>";
+                            echo "<td>" . $row['fechaLimite'] . "</td>";
                             echo "</tr>";
                         }
                     } else {
@@ -72,7 +70,7 @@
                 </tbody>
             </table>
             <div style="text-align: right;">
-                <button style="float: right;" class="btn btn-primary" class="btn btn-primary">CIERRE</button>
+                <button class="btn btn-primary" onclick="abrirFormulario('carpeta7-1.php')">CIERRE</button>
             </div>
             <div style="text-align: left;">
                 <button style="float: left; background-color: red" class="btn btn-primary"
@@ -80,7 +78,7 @@
             </div>
         </div>
     </div>
-    
+
 
     <!-- Scripts de Bootstrap -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
@@ -98,13 +96,16 @@
                 data: {
                     certificacion: certificacion
                 },
-                success: function(response) {
+                success: function (response) {
                     $('#registrosTable tbody').html(response);
                 },
-                error: function(xhr, status, error) {
+                error: function (xhr, status, error) {
                     console.log(xhr.responseText);
                 }
             });
+        }
+        function abrirFormulario(url) {
+            window.location.href = "carpeta7-1.php";
         }
     </script>
 

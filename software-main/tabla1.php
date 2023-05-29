@@ -9,11 +9,12 @@
 
 <body>
     <div class="container">
-        <h2>CRUD con Bootstrap y PHP</h2>
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addModal">
-            Agregar Cargo
-        </button>
-        <br><br>
+        <div style="background-color: #429fe6;">
+            <h2 style="text-align: center; font-family: georgia; ">CRUD DE TABLA CARGO</h2>
+
+
+        </div>
+
         <table class="table">
             <thead>
                 <tr>
@@ -43,7 +44,8 @@
                     echo "<td>" . $row['descripcion'] . "</td>";
                     echo "<td>";
                     echo "<a href='#' class='btn btn-primary edit-btn' data-toggle='modal' data-target='#editModal' data-idcargo='" . $row['idcargo'] . "' data-descripcion='" . $row['descripcion'] . "'>Editar</a>";
-                    echo "<a href='delete.php?id=" . $row['idcargo'] . "' class='btn btn-danger ml-2'>Eliminar</a>";
+                    echo "<a href='#' class='btn btn-danger delete-btn' data-toggle='modal' data-target='#deleteUserModal' data-idcargo='" . $row['idcargo'] . "' data-descripcion='" . $row['descripcion'] . "'>Eliminar</a>";
+
                     echo "</td>";
                     echo "</tr>";
                 }
@@ -120,8 +122,8 @@
                     <p>¿Estás seguro de que deseas eliminar este cargo?</p>
                 </div>
                 <div class="modal-footer">
-                    <form action="delete.php" method="POST">
-                        <input type="hidden" id="delete-idcargo" name="delete_user_id">
+                    <form action="delete1.php" method="POST">
+                        <input type="hidden" id="delete_user_id" name="delete_user_id">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                         <button type="submit" class="btn btn-danger">Eliminar</button>
                     </form>
@@ -129,30 +131,54 @@
             </div>
         </div>
     </div>
+    <div style="text-align: center;"class="row mt-3">
+        <div class="col">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addModal">
+                Agregar Cargo
+            </button>
+        </div>
+        <div class="col">
+            <button style="float: left; background-color: red" class="btn btn-primary"
+                onclick="cerrarFormulario();">Salir</button>
+        </div>
+    </div>
 
 
-    <!-- Scripts de Bootstrap -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
-    <!-- Script para obtener los datos del cargo seleccionado y abrir el modal de edición -->
-    <script>
-        $(document).on("click", ".edit-btn", function () {
-            var idcargo = $(this).data('idcargo');
-            var descripcion = $(this).data('descripcion');
-            $("#edit_idcargo").val(idcargo);
-            $("#edit_descripcion").val(descripcion);
-            $("#editModal").modal("show");
-        });
+        <!-- Scripts de Bootstrap -->
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+        <!-- Script para obtener los datos del cargo seleccionado y abrir el modal de edición -->
+        <script>
+            $(document).on("click", ".edit-btn", function () {
+                var idcargo = $(this).data('idcargo');
+                var descripcion = $(this).data('descripcion');
+                $("#edit_idcargo").val(idcargo);
+                $("#edit_descripcion").val(descripcion);
+                $("#editModal").modal("show");
+            });
 
 
-        // Función para cargar el ID del cargo a eliminar en el formulario de eliminación
-        $('.delete-button').on('click', function () {
-            var idcargo = $(this).data('idcargo');
-            $('#delete-idcargo').val(idcargo);
-        });
+            // Función para cargar el ID del cargo a eliminar en el formulario de eliminación
+            $('.delete-btn').on('click', function () {
+                var idcargo = $(this).data('idcargo');
+                $('#delete_user_id').val(idcargo);
+            });
 
-    </script>
+            function cerrarFormulario() {
+                window.close(); // Cierra la ventana actual del navegador
+                window.location.href = "bienvenida.php"; // Redirige al usuario al menú principal
+            }
+            // Código JavaScript para ocultar el mensaje de éxito después de unos segundos
+            $(document).ready(function () {
+                // Ocultar el mensaje de éxito después de 3 segundos (3000 ms)
+                setTimeout(function () {
+                    $("#mensaje-exito").fadeOut("slow");
+                }, 5000);
+            });
+
+        </script>
 
 
 </body>

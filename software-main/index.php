@@ -12,35 +12,25 @@ if ($conn->connect_error) {
 	die("La conexión a la base de datos falló: " . $conn->connect_error);
 }
 
-// Verificar si se enviaron los datos del formulario
-if (isset($_POST['submit'])) {
-	// Obtener los datos del formulario
-	$usuario = isset($_POST['usuario']) ? $_POST['usuario'] : '';
-	$clave = isset($_POST['clave']) ? $_POST['clave'] : '';
+// Obtener los datos del formulario
 
-	// Verificar si los campos están vacíos
-	if (empty($usuario) || empty($clave)) {
-		$mensajeError = "¡Por favor, ingresa el usuario y la contraseña!";
-	} else {
-		// Buscar el usuario en la tabla de usuarios
-		$sql = "SELECT * FROM usuario_log WHERE usuario = '$usuario' AND clave = '$clave'";
-		$resultado = $conn->query($sql);
+$usuario = isset($_POST['usuario']) ? $_POST['usuario'] : '';
+$clave = isset($_POST['clave']) ? $_POST['clave'] : '';
 
-		// Verificar si se encontró un usuario coincidente
-		if ($resultado->num_rows == 1) {
-			// Iniciar sesión y redirigir al usuario a la página de bienvenida
-			session_start();
-			$_SESSION['usuario'] = $usuario;
-			header("location: bienvenida.php");
-			exit; // Salir del script después de redirigir
-		} else {
-			// Mostrar un mensaje de error si las credenciales no coinciden
-			$mensajeError = "¡Usuario o contraseña incorrecto!";
-			
-		}
+// Buscar el usuario en la tabla de usuarios
+$sql = "SELECT * FROM usuario_log WHERE usuario = '$usuario' AND clave = '$clave'";
 
+$resultado = $conn->query($sql);
 
-	}
+// Verificar si se encontró un usuario coincidente
+if ($resultado->num_rows == 1) {
+	// Iniciar sesión y redirigir al usuario a la página de bienvenida
+	session_start();
+	$_SESSION['usuario'] = $usuario;
+	header("location: bienvenida.php");
+} else {
+	// Mostrar un mensaje de error si las credenciales no coinciden
+	$mensajeError = "¡USUARIO O CONTRASEÑA INCORRECTO!";
 }
 
 // Cerrar la conexión
@@ -66,7 +56,8 @@ $conn->close();
 	<head>
 		<title>Login</title>
 		<link rel="stylesheet" type="text/css" href="style.css">
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	</head>
 	<style>
 		body {
@@ -155,8 +146,9 @@ $conn->close();
 	</style>
 
 <body>
-	<?php if (isset($mensajeError)) : ?>
-		<div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: grey; color: black; padding: 30px; z-index: 9999;" class="alert alert-danger mt-3" id="mensaje-error" role="alert">
+	<?php if (isset($mensajeError)): ?>
+		<div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: RED; color: black; padding: 30px; z-index: 9999;"
+			class="alert alert-danger mt-3" id="mensaje-error" role="alert">
 			<?php echo $mensajeError; ?>
 		</div>
 	<?php endif; ?>
@@ -175,21 +167,23 @@ $conn->close();
 
 		<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
 			<label for="usuario">Usuario:</label>
-			<input style="background-color: #555; color:white;" placeholder="usuario" type="text" name="usuario" required>
+			<input style="background-color: #555; color:white;" placeholder="usuario" type="text" name="usuario"
+				required>
 			<label for="clave">Contraseña:</label>
-			<input style="background-color: #555; color:white;" placeholder="contraseña" type="password" name="clave" required>
+			<input style="background-color: #555; color:white;" placeholder="contraseña" type="password" name="clave"
+				required>
 			<input style="background-color: blue;" type="submit" name="submit" value="INGRESAR">
 			<input style="background-color: red;" type="submit" name="submit" value="SALIR">
-
+			
 		</form>
 
 	</div>
 </body>
 <script>
 	// Código JavaScript para ocultar el mensaje de éxito después de unos segundos
-	$(document).ready(function() {
+	$(document).ready(function () {
 		// Ocultar el mensaje de éxito después de 3 segundos (3000 ms)
-		setTimeout(function() {
+		setTimeout(function () {
 			$("#mensaje-error").fadeOut("slow");
 		}, 3000);
 	});

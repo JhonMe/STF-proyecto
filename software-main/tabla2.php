@@ -2,105 +2,31 @@
 <html>
 
 <head>
-    <title>CRUD con Bootstrap</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-</head>
-
-<body>
-    <div class="container">
-        <h2>CRUD con Bootstrap</h2>
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addUserModal">Agregar
-            Usuario</button>
-        <br><br>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Usuario</th>
-                    <th>clave</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                // Conexión a la base de datos
-                $conn = mysqli_connect("localhost", "root", "", "usuarios");
-
-                // Consulta de usuarios
-                $query = "SELECT * FROM usuario_login";
-                $result = mysqli_query($conn, $query);
-
-                // Mostrar los usuarios en la tabla
-                while ($row = mysqli_fetch_assoc($result)) {
-                    echo "<tr>";
-                    echo "<td>" . $row['id'] . "</td>";
-                    echo "<td>" . $row['usuario'] . "</td>";
-                    echo "<td>" . $row['clave'] . "</td>";
-                    echo "<td>
-                            <button type='button' class='btn btn-primary' data-toggle='modal' data-target='#editUserModal' data-id='" . $row['usuario'] . "' data-usuario='" . $row['clave'] . "'>Editar</button>
-                            <button type='button' class='btn btn-danger' data-toggle='modal' data-target='#deleteUserModal' data-id='" . $row['usuario'] . "'>Eliminar</button>
-                          </td>";
-                    echo "</tr>";
-                }
-                ?>
-            </tbody>
-        </table>
-    </div>
-
-    <!-- Modal Agregar Usuario -->
-    <div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="addUserModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="addUserModalLabel">Agregar Usuario</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form action="conexionTabla2.php" method="POST">
-                        <div class="form-group">
-                            <label>Usuario</label>
-                            <input type="text" name="usuario" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Clave</label>
-                            <input type "password" name="clave" class="form-control" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Agregar</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal Editar Usuario -->
-    <div class="modal fade" id="editUserModal" tabindex="-1" role="dialog" aria-labelledby="editUserModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header"><!DOCTYPE html>
-<html>
-
-<head>
-    <title>CRUD con Bootstrap y PHP</title>
+    <title>CRUD con Bootstrap y PHP - Empleados</title>
     <!-- Agrega los enlaces a los estilos de Bootstrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 </head>
 
 <body>
     <div class="container">
-        <h2>CRUD con Bootstrap y PHP</h2>
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addModal">
-            Agregar Cargo
-        </button>
-        <br><br>
+        <div style="background-color: #429fe6;">
+            <h2 style="text-align: center; font-family: georgia;">CRUD DE TABLA EMPLEADOS</h2>
+        </div>
+
         <table class="table">
             <thead>
                 <tr>
-                    <th>ID Cargo</th>
-                    <th>Descripción</th>
+                    <th>ID</th>
+                    <th>Nombres</th>
+                    <th>Especialidades</th>
+                    <th>Celular</th>
+                    <th>Usuario</th>
+                    <th>Password</th>
+                    <th>Firma</th>
+                    <th>Email1</th>
+                    <th>Email2</th>
+                    <th>Dirección</th>
+                    <th>CV</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -114,18 +40,28 @@
                     die("Error al conectar a la base de datos: " . mysqli_connect_error());
                 }
 
-                // Consulta los cargos
-                $query = "SELECT * FROM cargos";
+                // Consulta los empleados
+                $query = "SELECT * FROM empleados";
                 $result = mysqli_query($conn, $query);
 
                 // Itera sobre los registros y muestra los datos en la tabla
                 while ($row = mysqli_fetch_assoc($result)) {
                     echo "<tr>";
-                    echo "<td>" . $row['idcargo'] . "</td>";
-                    echo "<td>" . $row['descripcion'] . "</td>";
+                    echo "<td>" . $row['id'] . "</td>";
+                    echo "<td>" . $row['nombres'] . "</td>";
+                    echo "<td>" . $row['especialidades'] . "</td>";
+                    echo "<td>" . $row['celular'] . "</td>";
+                    echo "<td>" . $row['usuario'] . "</td>";
+                    echo "<td>" . $row['password'] . "</td>";
+                    echo "<td>" . $row['firma'] . "</td>";
+                    echo "<td>" . $row['email1'] . "</td>";
+                    echo "<td>" . $row['email2'] . "</td>";
+                    echo "<td>" . $row['direccion'] . "</td>";
+                    echo "<td>" . $row['hoja_de_vida'] . "</td>";
                     echo "<td>";
-                    echo "<a href='#' class='btn btn-primary edit-btn' data-toggle='modal' data-target='#editModal' data-idcargo='" . $row['idcargo'] . "' data-descripcion='" . $row['descripcion'] . "'>Editar</a>";
-                    echo "<a href='#' class='btn btn-danger ml-2 delete-button' data-toggle='modal' data-target='#deleteUserModal' data-idcargo='" . $row['idcargo'] . "'>Eliminar</a>";
+                    echo "<a href='#' class='btn btn-primary edit-btn' data-toggle='modal' data-target='#editModal' data-id='" . $row['id'] . "' data-nombres='" . $row['nombres'] . "' data-especialidades='" . $row['especialidades'] . "' data-celular='" . $row['celular'] . "' data-usuario='" . $row['usuario'] . "' data-password='" . $row['password'] . "' data-firma='" . $row['firma'] . "' data-email1='" . $row['email1'] . "' data-email2='" . $row['email2'] . "' data-direccion='" . $row['direccion'] . "' data-hoja_de_vida='" . $row['hoja_de_vida'] . "'>Editar</a>";
+                    echo "<a href='#' class='btn btn-danger delete-btn' data-toggle='modal' data-target='#deleteUserModal' data-id='" . $row['id'] . "' data-nombres='" . $row['nombres'] . "' data-especialidades='" . $row['especialidades'] . "' data-celular='" . $row['celular'] . "' data-usuario='" . $row['usuario'] . "' data-password='" . $row['password'] . "' data-firma='" . $row['firma'] . "' data-email1='" . $row['email1'] . "' data-email2='" . $row['email2'] . "' data-direccion='" . $row['direccion'] . "' data-hoja_de_vida='" . $row['hoja_de_vida'] . "'>Eliminar</a>";
+
                     echo "</td>";
                     echo "</tr>";
                 }
@@ -137,22 +73,58 @@
         </table>
     </div>
 
-    <!-- Modal para agregar cargo -->
+    <!-- Modal para agregar empleado -->
     <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="addModalLabel">Agregar Cargo</h5>
+                    <h5 class="modal-title" id="addModalLabel">Agregar Empleado</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
+                    <form action="conexionTabla2.php" method="POST">
                         <div class="form-group">
-                            <label for="descripcion">Descripción:</label>
-                            <input type="text" class="form-control" id="descripcion" name="descripcion" required>
+                            <label for="nombres">Nombres:</label>
+                            <input type="text" class="form-control" id="nombres" name="nombres" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="especialidades">Especialidades:</label>
+                            <input type="text" class="form-control" id="especialidades" name="especialidades" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="celular">Celular:</label>
+                            <input type="text" class="form-control" id="celular" name="celular" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="usuario">Usuario:</label>
+                            <input type="text" class="form-control" id="usuario" name="usuario" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password:</label>
+                            <input type="password" class="form-control" id="password" name="password" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="firma">Firma:</label>
+                            <input type="text" class="form-control" id="firma" name="firma" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email1">Email1:</label>
+                            <input type="email" class="form-control" id="email1" name="email1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email2">Email2:</label>
+                            <input type="email" class="form-control" id="email2" name="email2">
+                        </div>
+                        <div class="form-group">
+                            <label for="direccion">Dirección:</label>
+                            <input type="text" class="form-control" id="direccion" name="direccion" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="hoja_de_vida">Hoja de Vida:</label>
+                            <input type="text" class="form-control" id="hoja_de_vida" name="hoja_de_vida" required>
                         </div>
                         <button type="submit" class="btn btn-primary">Agregar</button>
                     </form>
@@ -161,147 +133,155 @@
         </div>
     </div>
 
-    <!-- Modal para editar cargo -->
+
+    <!-- Modal para editar empleado -->
     <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editModalLabel">Editar Cargo</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
-                        <div class="form-group">
-                            <input type="hidden" id="edit-idcargo" name="edit_idcargo">
-                            <label for="edit-descripcion">Descripción:</label>
-                            <input type="text" class="form-control" id="edit-descripcion" name="edit_descripcion"
-                                required>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Guardar cambios</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Modal de confirmación para eliminar cargo -->
-    <div class="modal fade" id="deleteUserModal" tabindex="-1" role="dialog" aria-labelledby="deleteUserModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deleteUserModalLabel">Eliminar Cargo</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p>¿Estás seguro de que deseas eliminar este cargo?</p>
-                </div>
-                <div class="modal-footer">
-                    <form action="delete.php" method="POST">
-                        <input type="hidden" id="delete-idcargo" name="delete_user_id">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-danger">Eliminar</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Agrega los scripts de Bootstrap y jQuery -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-
-    <script>
-        // Función para cargar los datos del cargo a editar en el formulario de edición
-        $('.edit-btn').on('click', function () {
-            var idcargo = $(this).data('idcargo');
-            var descripcion = $(this).data('descripcion');
-
-            $('#edit-idcargo').val(idcargo);
-            $('#edit-descripcion').val(descripcion);
-        });
-
-        // Función para cargar el ID del cargo a eliminar en el formulario de eliminación
-        $('.delete-button').on('click', function () {
-            var idcargo = $(this).data('idcargo');
-            $('#delete-idcargo').val(idcargo);
-        });
-    </script>
-</body>
-
-</html>
-                    <h5 class="modal-title" id="editUserModalLabel">Editar Usuario</h5>
+                    <h5 class="modal-title" id="editModalLabel">Editar Empleado</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <form action="conexionTabla2.php" method="POST">
-                        <input type="hidden" name="id" id="edit_user_id">
                         <div class="form-group">
-                            <label>Usuario</label>
-                            <input type="text" name="usuario" id="edit_user_usuario" class="form-control" required>
+                            <label for="edit_nombres">Nombres:</label>
+                            <input type="text" class="form-control" id="edit_nombres" name="edit_nombres" required>
                         </div>
                         <div class="form-group">
-                            <label>Clave</label>
-                            <input type="password" name="clave" class="form-control">
+                            <label for="edit_especialidades">Especialidades:</label>
+                            <input type="text" class="form-control" id="edit_especialidades" name="edit_especialidades"
+                                required>
                         </div>
-                        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                        <div class="form-group">
+                            <label for="edit_celular">Celular:</label>
+                            <input type="text" class="form-control" id="edit_celular" name="edit_celular" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit_usuario">Usuario:</label>
+                            <input type="text" class="form-control" id="edit_usuario" name="edit_usuario" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit_password">Password:</label>
+                            <input type="password" class="form-control" id="edit_password" name="edit_password"
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit_firma">Firma:</label>
+                            <input type="text" class="form-control" id="edit_firma" name="edit_firma" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit_email1">Email1:</label>
+                            <input type="email" class="form-control" id="edit_email1" name="edit_email1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit_email2">Email2:</label>
+                            <input type="email" class="form-control" id="edit_email2" name="edit_email2">
+                        </div>
+                        <div class="form-group">
+                            <label for="edit_direccion">Dirección:</label>
+                            <input type="text" class="form-control" id="edit_direccion" name="edit_direccion" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit_hoja_de_vida">Hoja de Vida:</label>
+                            <input type="text" class="form-control" id="edit_hoja_de_vida" name="edit_hoja_de_vida"
+                                required>
+                        </div>
+                        <input type="hidden" id="edit_id" name="edit_id">
+                        <button type="submit" class="btn btn-primary">Guardar cambios</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Modal Eliminar Usuario -->
+
+    <!-- Modal para eliminar empleado -->
     <div class="modal fade" id="deleteUserModal" tabindex="-1" role="dialog" aria-labelledby="deleteUserModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="deleteUserModalLabel">Eliminar Usuario</h5>
+                    <h5 class="modal-title" id="deleteUserModalLabel">Eliminar Empleado</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="delete.php" method="POST">
-                        <p>¿Estás seguro de que quieres eliminar este usuario?</p>
-                        <input type="hidden" name="id" id="delete_user_id">
+                    <h4>¿Estás seguro de que quieres eliminar al empleado?</h4>
+                    <p id="delete_nombres"></p>
+                </div>
+                <div class="modal-footer">
+                    <form action="delete2.php" method="POST">
+                        <input type="hidden" id="delete_id" name="delete_id">
                         <button type="submit" class="btn btn-danger">Eliminar</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+    <div style="position: absolute; top: 100%; left: 10%;">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addModal">
+            Agregar Cargo
+        </button>
 
+    </div>
+    <div style="position: absolute; top: 100%; left: 20%;">
+        <button style="float: left; background-color: red" class="btn btn-primary"
+            onclick="cerrarFormulario();">SALIR</button>
+    </div>
+
+
+    <!-- Agrega los enlaces a los scripts de jQuery y Bootstrap -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <script>
-        // Obtener los datos del usuario seleccionado para editar
-        $('#editUserModal').on('show.bs.modal1', function (event) {
-            var button = $(event.relatedTarget)
-            var id = button.data('id')
-            var usuario = button.data('usuario')
-            var modal = $(this)
-            modal.find('#edit_user_id').val(id)
-            modal.find('#edit_user_usuario').val(usuario)
-        })
 
-        // Obtener el ID del usuario seleccionado para eliminar
-        $('#deleteUserModal').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget)
-            var id = button.data('id')
-            var modal = $(this)
-            modal.find('#delete_user_id').val(id)
-        })
+    <!-- Script para manejar los eventos de editar y eliminar -->
+    <script>
+        // Evento al hacer clic en el botón de editar
+        $('.edit-btn').click(function () {
+            var id = $(this).data('id');
+            var nombres = $(this).data('nombres');
+            var especialidades = $(this).data('especialidades');
+            var celular = $(this).data('celular');
+            var usuario = $(this).data('usuario');
+            var password = $(this).data('password');
+            var firma = $(this).data('firma');
+            var email1 = $(this).data('email1');
+            var email2 = $(this).data('email2');
+            var direccion = $(this).data('direccion');
+            var hoja_de_vida = $(this).data('hoja_de_vida');
+
+            $('#edit_id').val(id);
+            $('#edit_nombres').val(nombres);
+            $('#edit_especialidades').val(especialidades);
+            $('#edit_celular').val(celular);
+            $('#edit_usuario').val(usuario);
+            $('#edit_password').val(password);
+            $('#edit_firma').val(firma);
+            $('#edit_email1').val(email1);
+            $('#edit_email2').val(email2);
+            $('#edit_direccion').val(direccion);
+            $('#edit_hoja_de_vida').val(hoja_de_vida);
+        });
+
+        // Evento al hacer clic en el botón de eliminar
+        $('.delete-btn').click(function () {
+            var id = $(this).data('id');
+            var nombres = $(this).data('nombres');
+            $('#delete_id').val(id);
+            $('#delete_nombres').text(nombres);
+        });
+        function cerrarFormulario() {
+            window.close(); // Cierra la ventana actual del navegador
+            window.location.href = "bienvenida.php"; // Redirige al usuario al menú principal
+        }
     </script>
+
 </body>
 
 </html>

@@ -1,232 +1,53 @@
-<!DOCTYPE html>
-<html>
+<?php
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "usuarios";
 
-<head>
-    <title>Registro de Acción Correctiva / Acción Preventiva</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-</head>
+// Crear conexión
+$conn = new mysqli($servername, $username, $password, $dbname);
 
-<body>
-    <div style="background-color: #429fe6;">
-        <h2 style="text-align: center; font-family: georgia; ">Registro de Acción Correctiva / Acción Preventiva</h2>
+// Verificar la conexión
+if ($conn->connect_error) {
+    die("Error en la conexión: " . $conn->connect_error);
+}
 
+// Obtener los valores del formulario
+$codigoNCF = $_POST['codigoNCF'];
+$solicitud = $_POST['solicitud'];
+$tipo = $_POST['tipo'];
+$proceso = $_POST['proceso'];
+$descripcion = $_POST['descripcion'];
+$conclusion = $_POST['conclusion'];
+$acciones = $_POST['acciones'];
+$responsable = $_POST['responsable'];
+$recursos = $_POST['recursos'];
+$tipoAccion = isset($_POST['tipoAccion']) ? $_POST['tipoAccion'] : '';
+$fechaLimite = $_POST['fechaLimite'];
 
-    </div>
-    <div class="container">
-        <form class="cuerpo" action="conexion5-1.php" method="post">
-            <div class="form-group">
-                <label for="codigoNCF">Código NCF:</label>
-                <input name="codigoNCF" type="text" class="form-control" id="codigoNCF">
-            </div>
-            <div class="form-group">
-                <label for="solicitud">N° Solicitud:</label>
-                <input name="solicitud" type="text" class="form-control" id="solicitud">
-            </div>
-            <div class="form-group">
-                <label for="tipo">Tipo:</label>
-                <br>
-                <?php
-                $servername = "localhost";
-                $username = "root";
-                $password = "";
-                $dbname = "usuarios";
+// Escapar los valores para prevenir inyección de SQL
+$codigoNCF = mysqli_real_escape_string($conn, $codigoNCF);
+$solicitud = mysqli_real_escape_string($conn, $solicitud);
+$tipo = mysqli_real_escape_string($conn, $tipo);
+$proceso = mysqli_real_escape_string($conn, $proceso);
+$descripcion = mysqli_real_escape_string($conn, $descripcion);
+$conclusion = mysqli_real_escape_string($conn, $conclusion);
+$acciones = mysqli_real_escape_string($conn, $acciones);
+$responsable = mysqli_real_escape_string($conn, $responsable);
+$recursos = mysqli_real_escape_string($conn, $recursos);
+$tipoAccion = mysqli_real_escape_string($conn, $tipoAccion);
+$fechaLimite = mysqli_real_escape_string($conn, $fechaLimite);
 
-                // Crear conexión
-                $conn = new mysqli($servername, $username, $password, $dbname);
+// Ejecutar la consulta de inserción
+$sql = "INSERT INTO inicio6 (codigoNCF, solicitud, tipo, proceso, descripcion, conclusion, acciones, responsable, recursos, tipoAccion, fechaLimite)
+        VALUES ('$codigoNCF', '$solicitud', '$tipo', '$proceso', '$descripcion', '$conclusion', '$acciones', '$responsable', '$recursos', '$tipoAccion', '$fechaLimite')";
 
-                // Verificar la conexión
-                if ($conn->connect_error) {
-                    die("Error en la conexión: " . $conn->connect_error);
-                }
-                // Consulta para obtener los datos de la tabla "proceso"
-                $consultaProceso = "SELECT descripcion FROM tipo";
-                $resultadoProceso = $conn->query($consultaProceso);
+if ($conn->query($sql) === TRUE) {
+    echo "Registro insertado correctamente.";
+} else {
+    echo "Error al insertar el registro: " . $conn->error;
+}
 
-                // Verificar si se obtuvieron resultados
-                if ($resultadoProceso->num_rows > 0) {
-                    // Crear el combo box con los datos obtenidos
-                    echo "<select name='tipo'>";
-                    while ($row = $resultadoProceso->fetch_assoc()) {
-                        echo "<option value='" . $row["descripcion"] . "'>" . $row["descripcion"] . "</option>";
-                    }
-                    echo "</select>";
-                } else {
-                    echo "No se encontraron registros en la tabla 'tipo'.";
-                }
-                ?>
-            </div>
-            <div class="form-group">
-                <label style="font-family: georgia; font-size: 20px;" for="proceso" for="proceso">SELECIONE EL
-                    PROCESO</label>
-                <br>
-                <?php
-                $servername = "localhost";
-                $username = "root";
-                $password = "";
-                $dbname = "usuarios";
-
-                // Crear conexión
-                $conn = new mysqli($servername, $username, $password, $dbname);
-
-                // Verificar la conexión
-                if ($conn->connect_error) {
-                    die("Error en la conexión: " . $conn->connect_error);
-                }
-                // Consulta para obtener los datos de la tabla "proceso"
-                $consultaProceso = "SELECT descripcion FROM proceso";
-                $resultadoProceso = $conn->query($consultaProceso);
-
-                // Verificar si se obtuvieron resultados
-                if ($resultadoProceso->num_rows > 0) {
-                    // Crear el combo box con los datos obtenidos
-                    echo "<select name='proceso'>";
-                    while ($row = $resultadoProceso->fetch_assoc()) {
-                        echo "<option value='" . $row["descripcion"] . "'>" . $row["descripcion"] . "</option>";
-                    }
-                    echo "</select>";
-                } else {
-                    echo "No se encontraron registros en la tabla 'proceso'.";
-                }
-                ?>
-            </div>
-            <div class="form-group">
-                <label for="descripcion">Descripción de la No Conformidad o Potencial No Conformidad:</label>
-                <input type="text" class="form-control" name="descripcion" id="descripcion">
-            </div>
-            <div class="form-group">
-                <label for="conclusion">Conclusión de Análisis Causal:</label>
-                <input type="text" class="form-control" name="conclusion" id="conclusion">
-            </div>
-            <h3>Acciones Correctivas / Preventivas Propuestas (Plan de Acción)</h3>
-            <div class="form-group">
-                <label for="acciones">Acciones Correctivas / Preventivas:</label>
-                <input type="text" class="form-control" name="acciones" id="acciones">
-            </div>
-            <div class="form-group">
-                <label for="responsable">Responsable:</label>
-                <br>
-                <?php
-                $servername = "localhost";
-                $username = "root";
-                $password = "";
-                $dbname = "usuarios";
-
-                // Crear conexión
-                $conn = new mysqli($servername, $username, $password, $dbname);
-
-                // Verificar la conexión
-                if ($conn->connect_error) {
-                    die("Error en la conexión: " . $conn->connect_error);
-                }
-                // Consulta para obtener los datos de la tabla "proceso"
-                $consultaProceso = "SELECT nombres FROM responsable";
-                $resultadoProceso = $conn->query($consultaProceso);
-
-                // Verificar si se obtuvieron resultados
-                if ($resultadoProceso->num_rows > 0) {
-                    // Crear el combo box con los datos obtenidos
-                    echo "<select name='responsable1'>";
-                    while ($row = $resultadoProceso->fetch_assoc()) {
-                        echo "<option value='" . $row["nombres"] . "'>" . $row["nombres"] . "</option>";
-                    }
-                    echo "</select>";
-                } else {
-                    echo "No se encontraron registros en la tabla 'responsable1'.";
-                }
-                ?>
-            </div>
-            <div class="form-group">
-                <label for="recursos">Recursos:</label>
-                <input name="recursos" type="text" class="form-control" id="recursos">
-            </div>
-            <div class="form-group">
-                <label>Tipo de Acción:</label><br>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="tipoAccion" id="accionCorrectiva" value="AC">
-                    <label class="form-check-label" for="accionCorrectiva">Acciones Correctivas</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="tipoAccion" id="accionPreventiva" value="AP">
-                    <label class="form-check-label" for="accionPreventiva">Acciones Preventivas</label>
-                </div>
-            </div>
-            <div class="form-group">
-                <label style="font-family: georgia; font-size: 20px;" for="fechaLimite">FECHA LIMITE</label>
-                <input class="form-control" type="date" id="fechaLimite" name="fechaLimite">
-            </div>
-            <h3>Tabla de Acciones</h3>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Categoría</th>
-                        <th>Acciones</th>
-                        <th>Responsable</th>
-                        <th>Recursos</th>
-                        <th>Fecha</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    // Conecta a la base de datos
-                    $conn = mysqli_connect('localhost', 'root', '', 'usuarios');
-
-                    // Verifica la conexión
-                    if (!$conn) {
-                        die("Error al conectar a la base de datos: " . mysqli_connect_error());
-                    }
-
-                    // Consulta los cargos
-                    $query = "SELECT * FROM inicio6";
-                    $result = mysqli_query($conn, $query);
-                    
-
-                    // Itera sobre los registros y muestra los datos en la tabla
-                    while ($row = mysqli_fetch_assoc($result)) {
-                        echo "<tr>";
-                        
-                        echo "<td>" . $row['codigoNCF'] . "</td>";
-                        echo "<td>" . $row['acciones'] . "</td>";
-                        echo "<td>" . $row['responsable'] . "</td>";
-                        echo "<td>" . $row['recursos'] . "</td>";
-                        echo "<td>" . $row['fechaLimite'] . "</td>";
-                        echo "</tr>";
-
-                    }
-
-                    // Cierra la conexión a la base de datos
-                    mysqli_close($conn);
-                    ?>
-                </tbody>
-            </table>
-            <button type="submit" class="btn btn-primary">Registrar</button>
-            <button type="button" class="btn btn-success" id="agregar">Agregar</button>
-            <button style="float: left; background-color: red" type="button" class="btn btn-success" id="salir"
-                onclick="cerrarFormulario();">SALIR</button>
-
-
-        </form>
-    </div>
-
-
-
-
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
-<script>
-    function cerrarFormulario() {
-        window.close(); // Cierra la ventana actual del navegador
-        window.location.href = "carpeta5.php"; // Redirige al usuario al menú principal
-    }
-    // Código JavaScript para ocultar el mensaje de éxito después de unos segundos
-    $(document).ready(function () {
-        // Ocultar el mensaje de éxito después de 3 segundos (3000 ms)
-        setTimeout(function () {
-            $("#mensaje-exito").fadeOut("slow");
-        }, 5000);
-    });
-</script>
-
-
-</html>
+// Cerrar la conexión
+$conn->close();
+?>
