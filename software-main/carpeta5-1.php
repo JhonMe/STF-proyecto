@@ -72,10 +72,7 @@
             border: 1px solid #ccc;
         }
 
-        .btn-primary,
-        .btn-success {
-            margin-top: 10px;
-        }
+       
 
         /* Estilos adicionales */
         .container {
@@ -224,7 +221,10 @@
                             </div>
                      </div>
                 </div>
+
         </form>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+
             <h3>Tabla de Acciones</h3>
             <table class="table">
             <thead>
@@ -300,9 +300,7 @@
     
 
            
-            <div class="container" style="text-align: center; margin-top: 20px;">
-                 <button type="submit" class="btn btn-primary">Guardar</button>
-           </div>
+           
 
             <button type="button" class="btn btn-success" id="agregar">Agregar</button>
             <button style="float: left; background-color: red" type="button" class="btn btn-success" id="salir"
