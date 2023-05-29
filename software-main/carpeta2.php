@@ -37,6 +37,7 @@ $conn->close();
 <html>
 
 <head>
+<link rel="icon" type="png" href="img/logo .png">
     <!-- Agregar los enlaces a las librerías de jQuery y Bootstrap -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">

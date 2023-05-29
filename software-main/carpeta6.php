@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" type="png" href="img/logo .png">
     <title>REPORTE DE PRODUCTO NO CONFORME/ NO CONFORMIDADES</title>
     <!-- Incluimos los estilos de Bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">

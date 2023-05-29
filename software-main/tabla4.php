@@ -2,6 +2,7 @@
 <html>
 
 <head>
+<link rel="icon" type="png" href="img/logo .png">
     <title>CRUD con Bootstrap y PHP - Procesos</title>
     <!-- Agrega los enlaces a los estilos de Bootstrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">

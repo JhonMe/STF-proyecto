@@ -5,6 +5,7 @@
 <html>
 
 <head>
+  <link rel="icon" type="png" href="img/logo .png">
     <title>Registro de Acción Correctiva / Acción Preventiva</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
